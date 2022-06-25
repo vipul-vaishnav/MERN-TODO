@@ -1,6 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ErrorAlert from './../alerts/ErrorAlert';
+import SuccessAlert from './../alerts/SuccessAlert';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState({
+    status: false,
+    message: '',
+  });
+  const [success, setSuccess] = useState({
+    status: false,
+    message: '',
+  });
+
+  const formData = { email, password };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email) {
+      setError({
+        status: true,
+        message: 'Not a valid email address',
+      });
+      setTimeout(() => {
+        setError({
+          status: false,
+          message: '',
+        });
+      }, 3000);
+      return;
+    }
+
+    if (!password || password.trim().length < 8) {
+      setError({
+        status: true,
+        message: 'Password must be at least 8 characters',
+      });
+      setTimeout(() => {
+        setError({
+          status: false,
+          message: '',
+        });
+      }, 3000);
+      return;
+    }
+
+    setSuccess({
+      status: true,
+      message: 'Form submitted successfully',
+    });
+    setTimeout(() => {
+      setSuccess({
+        status: false,
+        message: '',
+      });
+    }, 3000);
+    setEmail('');
+    setPassword('');
+    console.log(formData);
+  };
+
   return (
     <section className="py-12 pb-0 sm:py-16 sm:pb-0">
       <h1 className="text-5xl font-extrabold text-center md:text-8xl">
@@ -8,7 +69,7 @@ const Login = () => {
       </h1>
       <p className="my-8 font-semibold text-center sm:text-xl sm:my-12">Log in to your account to use Taskzap</p>
       <div className="my-12 sm:my-16">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="my-3">
             <label htmlFor="email" className="block mb-2 font-medium cursor-pointer">
               Email
@@ -17,6 +78,8 @@ const Login = () => {
               type="email"
               id="email"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Type here"
               className="w-full input input-bordered"
               autoComplete="off"
@@ -30,12 +93,18 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Type here"
               className="w-full input input-bordered"
               autoComplete="off"
             />
           </div>
-          <button className="my-4 text-white bg-gray-900 btn btn-block">Register</button>
+          {error.status && <ErrorAlert message={error.message} />}
+          {success.status && <SuccessAlert message={success.message} />}
+          <button type="submit" className="my-4 tracking-widest text-white bg-gray-900 btn btn-block">
+            Login
+          </button>
         </form>
       </div>
     </section>
