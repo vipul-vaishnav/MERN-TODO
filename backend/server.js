@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import colors from 'colors';
 import connectDB from './configs/connectDB.js';
+import userRouter from './routes/userRoute.js';
+import errorHandler from './middlewares/errorMiddlware.js';
 
 dotenv.config();
 
@@ -25,6 +27,10 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.json());
 
 // routes
+app.use('/api/v1/users', userRouter);
+
+// error handlers
+app.use(errorHandler);
 
 // listening to requests
 app.listen(PORT, () => {
