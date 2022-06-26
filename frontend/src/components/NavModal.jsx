@@ -5,6 +5,7 @@ import RegisterIcon from './../icons/RegisterIcon';
 import MenuClose from './../icons/MenuClose';
 import HomeIcon from './../icons/HomeIcon';
 import Logout from './../icons/Logout';
+import UserIcon from './../icons/UserIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 
@@ -35,6 +36,15 @@ const NavModal = ({ setShowModal }) => {
           </li>
           {user ? (
             <>
+              <li>
+                <button
+                  onClick={() => navigate('/profile')}
+                  className="flex items-center justify-center gap-2 text-xl font-semibold"
+                >
+                  <UserIcon />
+                  <span>Profile</span>
+                </button>
+              </li>
               <li>
                 <button
                   onClick={onLogout}

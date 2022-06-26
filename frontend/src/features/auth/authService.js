@@ -24,11 +24,24 @@ const loginUser = async (userData) => {
   return res.data;
 };
 
+// Change(Reset) Password
+const changePasswordForUser = async (new_pass_data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await axios.post(`${API_URL}me`, new_pass_data, config);
+
+  return res.data;
+};
+
 // Logout user
 const logout = () => {
   localStorage.removeItem('taskzapuser');
 };
 
-const authService = { registerUser, loginUser, logout };
+const authService = { registerUser, loginUser, changePasswordForUser, logout };
 
 export default authService;

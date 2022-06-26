@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LoginIcon from './../icons/LoginIcon';
 import RegisterIcon from './../icons/RegisterIcon';
 import HomeIcon from './../icons/HomeIcon';
+import UserIcon from './../icons/UserIcon';
 import Logout from './../icons/Logout';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
@@ -29,6 +30,15 @@ const NavDesktop = () => {
         </li>
         {user ? (
           <>
+            <li>
+              <button
+                onClick={() => navigate('/profile')}
+                className="flex items-center justify-center gap-1 text-lg font-semibold"
+              >
+                <UserIcon />
+                <span>Profile</span>
+              </button>
+            </li>
             <li>
               <button
                 onClick={onLogout}
