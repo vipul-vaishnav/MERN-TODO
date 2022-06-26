@@ -5,7 +5,7 @@ import CreateNewIcon from './../icons/CreateNewIcon';
 const Home = () => {
   return (
     <div className="py-16">
-      <h1 className="text-5xl font-extrabold text-center md:text-8xl">
+      <h1 className="text-5xl font-extrabold text-center sm:text-7xl md:text-8xl">
         Welcome to <span className="text-gray-400">Taskzap</span>
       </h1>
       <p className="my-8 font-semibold text-center sm:text-xl sm:my-12">

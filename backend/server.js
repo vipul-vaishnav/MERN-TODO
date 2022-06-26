@@ -26,6 +26,11 @@ if (process.env.NODE_ENV !== 'production') {
 // middleware (bodyParser)
 app.use(express.json());
 
+// welcome
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'Welcome to Taskzap' });
+});
+
 // routes
 app.use('/api/v1/users', userRouter);
 

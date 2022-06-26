@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ErrorAlert from './../alerts/ErrorAlert';
 import SuccessAlert from './../alerts/SuccessAlert';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, reset } from './../features/auth/authSlice';
+import Spinner from './../components/Spinner';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +18,47 @@ const Login = () => {
     message: '',
   });
 
-  const formData = { email, password };
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    // Error case
+    if (isError) {
+      setError({
+        status: true,
+        message: message,
+      });
+      setTimeout(() => {
+        setError({
+          status: false,
+          message: '',
+        });
+      }, 3000);
+    }
+
+    // Success case
+    if (isSuccess || user) {
+      setSuccess({
+        status: true,
+        message: user.message,
+      });
+      setTimeout(() => {
+        setSuccess({
+          status: false,
+          message: '',
+        });
+        navigate('/');
+      }, 3000);
+
+      setEmail('');
+      setPassword('');
+    }
+
+    dispatch(reset());
+  }, [isError, message, isSuccess, user, navigate, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,20 +91,14 @@ const Login = () => {
       return;
     }
 
-    setSuccess({
-      status: true,
-      message: 'Form submitted successfully',
-    });
-    setTimeout(() => {
-      setSuccess({
-        status: false,
-        message: '',
-      });
-    }, 3000);
-    setEmail('');
-    setPassword('');
-    console.log(formData);
+    const formData = { email, password };
+
+    dispatch(login(formData));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <section className="py-12 pb-0 sm:py-16 sm:pb-0">
