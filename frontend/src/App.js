@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -9,6 +10,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ViewProjects from './pages/ViewProjects';
 import CreateProject from './pages/CreateProject';
+import Dashboard from './pages/Dashboard';
 import { useLocation } from 'react-router-dom';
 
 const App = () => {
@@ -39,13 +41,15 @@ const App = () => {
       document.title = 'Taskzap | Register';
     } else if (pathname === '/profile') {
       document.title = 'Taskzap | Profile';
+    } else if (pathname === '/dashboard') {
+      document.title = 'Taskzap | Dashboard';
     } else {
       document.title = 'Taskzap project management app';
     }
   }, [pathname]);
 
   return (
-    <div className="max-w-6xl px-5 mx-auto text-base font-normal text-gray-900 bg-white font-poppins sm:px-12 md:px-24">
+    <div className="max-w-6xl px-5 mx-auto text-base font-normal text-gray-900 bg-white sm:px-12 md:px-24 font-poppins">
       <Header windowWidth={windowWidth} setShowModal={setShowModal} />
       {windowWidth < 640 && showModal && <NavModal setShowModal={setShowModal} />}
       <Routes>
@@ -60,6 +64,9 @@ const App = () => {
         </Route>
         <Route path="/create-project" element={<PrivateRoute />}>
           <Route path="/create-project" element={<CreateProject />} />
+        </Route>
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </div>

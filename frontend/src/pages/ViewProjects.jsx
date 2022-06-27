@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import Image from './../images/icons8-group-of-projects-96.png';
 import SearchIcon from './../icons/SearchIcon';
 import MoreIcon from './../icons/MoreIcon';
 import Footer from './../components/Footer';
+import Spinner from './../components/Spinner';
+import { useSelector, useDispatch } from 'react-redux';
+import { reset, get } from './../features/projects/projectSlice';
 
 const ViewProjects = () => {
+  const { projects, isLoading, isSuccess } = useSelector((state) => state.project);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      if (isSuccess) {
+        dispatch(reset());
+      }
+    };
+  }, [dispatch, isSuccess]);
+
+  useEffect(() => {
+    dispatch(get());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <div className="py-12 pb-0 sm:py-16 sm:pb-0">
@@ -46,86 +69,27 @@ const ViewProjects = () => {
               </tr>
             </thead>
             <tbody>
-              {/* <!-- row 1 --> */}
-              <tr>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-                <td>Blue</td>
-                <td>Blue</td>
-                <td>
-                  <div className="tooltip" data-tip="More">
-                    <button>
-                      <MoreIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              {/* <!-- row 2 --> */}
-              <tr>
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-                <td>Purple</td>
-                <td>Purple</td>
-                <td>
-                  <div className="tooltip" data-tip="More">
-                    <button>
-                      <MoreIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              {/* <!-- row 3 --> */}
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>
-                  <div className="tooltip" data-tip="More">
-                    <button>
-                      <MoreIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              {/* <!-- row 4 --> */}
-              <tr>
-                <th>4</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>
-                  <div className="tooltip" data-tip="More">
-                    <button>
-                      <MoreIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              {/* <!-- row 5 --> */}
-              <tr>
-                <th>5</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>Red</td>
-                <td>
-                  <div className="tooltip" data-tip="More">
-                    <button>
-                      <MoreIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              {projects &&
+                projects.length > 0 &&
+                projects.map((project, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <th>{idx + 1}</th>
+                      <td>{project.title}</td>
+                      <td>{project.key}</td>
+                      <td>{project.category}</td>
+                      <td>{project.owner}</td>
+                      <td>{project.status}</td>
+                      <td>
+                        <div className="tooltip" data-tip="More">
+                          <button>
+                            <MoreIcon />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
