@@ -116,24 +116,33 @@ const getMe = async (req, res) => {
 // @access  PROTECTED
 const resetPassword = asyncHandler(async (req, res) => {
   const user = req.user;
-  const { new_password, new_password_cnf } = req.body;
+  const { curr_password, new_password, new_password_cnf } = req.body;
 
-  if (new_password && new_password_cnf) {
+  if (curr_password && new_password && new_password_cnf) {
     if (new_password !== new_password_cnf) {
       res.status(400);
       throw new Error('Passwords do not match');
     } else {
-      try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(new_password, salt);
-        await userModel.findByIdAndUpdate(req.user._id, { $set: { password: hashedPassword } });
-        res.status(200).json({
-          status: 'success',
-          message: 'Password updated successfully',
-        });
-      } catch (error) {
+      const existing_user = await userModel.findById(user._id);
+
+      const match_old_password = await bcrypt.compare(curr_password, existing_user.password);
+
+      if (match_old_password) {
+        try {
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(new_password, salt);
+          await userModel.findByIdAndUpdate(req.user._id, { $set: { password: hashedPassword } });
+          res.status(200).json({
+            status: 'success',
+            message: 'Password updated successfully',
+          });
+        } catch (error) {
+          res.status(400);
+          throw new Error(error.message);
+        }
+      } else {
         res.status(400);
-        throw new Error(error.message);
+        throw new Error('Your current password is incorrect');
       }
     }
   } else {

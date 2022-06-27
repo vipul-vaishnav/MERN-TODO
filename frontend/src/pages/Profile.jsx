@@ -9,6 +9,7 @@ import { changePassword, reset } from './../features/auth/authSlice';
 
 const Profile = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+  const [curr_password, setCurrPassword] = useState('');
   const [new_password, setNewPassword] = useState('');
   const [new_password_cnf, setNewPassword_cnf] = useState('');
   const [error, setError] = useState({
@@ -52,6 +53,7 @@ const Profile = () => {
 
       setNewPassword('');
       setNewPassword_cnf('');
+      setCurrPassword('');
     }
 
     dispatch(reset());
@@ -59,6 +61,20 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!curr_password || curr_password.trim().length < 8) {
+      setError({
+        status: true,
+        message: 'Current password is invalid',
+      });
+      setTimeout(() => {
+        setError({
+          status: false,
+          message: '',
+        });
+      }, 3000);
+      return;
+    }
 
     if (!new_password || new_password.trim().length < 8) {
       setError({
@@ -88,7 +104,7 @@ const Profile = () => {
       return;
     }
 
-    const formData = { new_password, new_password_cnf };
+    const formData = { curr_password, new_password, new_password_cnf };
 
     dispatch(changePassword(formData));
   };
@@ -99,13 +115,13 @@ const Profile = () => {
 
   return (
     <div className="py-12 sm:py-16">
-      <h1 className="flex justify-center items-center gap-5 mb-8 sm:mb-12">
+      <h1 className="flex items-center justify-center gap-5 mb-8 sm:mb-12">
         <img src={Image} alt="profile-icon" className="w-8 sm:w-12" />
-        <span className="text-3xl sm:text-5xl font-semibold">Profile</span>
+        <span className="text-3xl font-semibold sm:text-5xl">Profile</span>
       </h1>
-      <div className="flex justify-start items-center gap-4 mb-8">
-        <div className="avatar placeholder static">
-          <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
+      <div className="flex items-center justify-start gap-4 mb-8">
+        <div className="static avatar placeholder">
+          <div className="w-12 rounded-full bg-neutral-focus text-neutral-content">
             <span className="text-xl">{user.name[0].toUpperCase()}</span>
           </div>
         </div>
@@ -141,17 +157,33 @@ const Profile = () => {
           />
         </div>
       </div>
+      {error.status && <ErrorAlert message={error.message} />}
       {success.status && <SuccessAlert message={success.message} />}
 
       {/* ============ MODAL ================ */}
-      <label htmlFor="my-modal-6" className="btn btn-block bg-gray-900 my-3 modal-button">
+      <label htmlFor="my-modal-6" className="my-3 bg-gray-900 btn btn-block modal-button">
         Change Password
       </label>
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Reset your password</h3>
+          <h3 className="text-lg font-bold">Reset your password</h3>
           <form onSubmit={handleSubmit}>
+            <div className="my-3">
+              <label htmlFor="curr_password" className="block mb-2 font-medium cursor-pointer">
+                Current Password
+              </label>
+              <input
+                type="password"
+                id="curr_password"
+                name="curr_password"
+                value={curr_password}
+                onChange={(e) => setCurrPassword(e.target.value)}
+                placeholder="Type here"
+                className="w-full input input-bordered"
+                autoComplete="off"
+              />
+            </div>
             <div className="my-3">
               <label htmlFor="password" className="block mb-2 font-medium cursor-pointer">
                 Password
@@ -183,14 +215,15 @@ const Profile = () => {
               />
             </div>
             {error.status && <ErrorAlert message={error.message} />}
-            <button type="submit" className="btn btn-block my-4 bg-gray-900">
+            {success.status && <SuccessAlert message={success.message} />}
+            <button type="submit" className="my-4 bg-gray-900 btn btn-block">
               Reset Password
             </button>
           </form>
           <div className="modal-action">
             <label
               htmlFor="my-modal-6"
-              className="btn bg-gray-900"
+              className="bg-gray-900 btn"
               onClick={() => {
                 setNewPassword('');
                 setNewPassword_cnf('');
