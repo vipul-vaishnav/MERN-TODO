@@ -1,8 +1,11 @@
 import React from 'react';
 import ProjectsIcon from './../icons/ProjectsIcon';
 import CreateNewIcon from './../icons/CreateNewIcon';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="py-16">
       <h1 className="text-5xl font-extrabold text-center sm:text-7xl md:text-8xl">
@@ -13,11 +16,17 @@ const Home = () => {
       </p>
 
       <div>
-        <button className="flex items-center justify-center w-full h-12 gap-4 my-5 font-bold text-gray-900 transition-all bg-white border-2 border-gray-900 rounded-md hover:scale-95">
+        <button
+          onClick={() => navigate('/create-project')}
+          className="flex items-center justify-center w-full h-12 gap-4 my-5 font-bold text-gray-900 transition-all bg-white border-2 border-gray-900 rounded-md hover:scale-95"
+        >
           <CreateNewIcon />
           <span>Create a new project</span>
         </button>
-        <button className="flex items-center justify-center w-full h-12 gap-4 my-5 font-bold text-white transition-all bg-gray-900 rounded-md hover:scale-95">
+        <button
+          onClick={() => navigate('/view-projects')}
+          className="flex items-center justify-center w-full h-12 gap-4 my-5 font-bold text-white transition-all bg-gray-900 rounded-md hover:scale-95"
+        >
           <ProjectsIcon />
           <span>View My Projects</span>
         </button>
