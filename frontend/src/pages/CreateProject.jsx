@@ -78,7 +78,7 @@ const CreateProject = () => {
           status: false,
           message: '',
         });
-        navigate('/dashboard');
+        navigate('/view-projects');
       }, 3000);
 
       // Resetting the form if project created successfully

@@ -5,10 +5,11 @@ import RegisterIcon from './../icons/RegisterIcon';
 import HomeIcon from './../icons/HomeIcon';
 import UserIcon from './../icons/UserIcon';
 import Logout from './../icons/Logout';
+import BellIcon from './../icons/BellIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 
-const NavDesktop = () => {
+const NavDesktop = ({ windowWidth }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,6 +39,13 @@ const NavDesktop = () => {
                 <UserIcon />
                 <span>Profile</span>
               </button>
+            </li>
+            <li>
+              <Link to="/notifications" className="flex items-center justify-center gap-1 text-lg font-semibold">
+                <BellIcon />
+                {/* <span>Notifications</span> */}
+                {windowWidth > 868 && <span>Notifications</span>}
+              </Link>
             </li>
             <li>
               <button

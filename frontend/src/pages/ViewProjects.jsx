@@ -86,7 +86,7 @@ const ViewProjects = () => {
                       <td>{project.status}</td>
                       <td>
                         <div className="tooltip" data-tip="More">
-                          <button onClick={() => navigate('/dashboard')}>
+                          <button onClick={() => navigate(`/dashboard/${project._id}`)}>
                             <MoreIcon />
                           </button>
                         </div>

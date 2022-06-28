@@ -6,6 +6,7 @@ import MenuClose from './../icons/MenuClose';
 import HomeIcon from './../icons/HomeIcon';
 import Logout from './../icons/Logout';
 import UserIcon from './../icons/UserIcon';
+import BellIcon from './../icons/BellIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 
@@ -46,9 +47,15 @@ const NavModal = ({ setShowModal }) => {
                 </button>
               </li>
               <li>
+                <Link to="/notifications" className="flex items-center justify-center gap-2 text-xl font-semibold">
+                  <BellIcon />
+                  <span>Notifications</span>
+                </Link>
+              </li>
+              <li>
                 <button
                   onClick={onLogout}
-                  className="flex items-center justify-center gap-2 text-base font-semibold bg-gray-900 text-white px-5 py-2 rounded-md hover:scale-95 transition-all"
+                  className="flex items-center justify-center gap-2 px-5 py-2 text-base font-semibold text-white transition-all bg-gray-900 rounded-md hover:scale-95"
                 >
                   <Logout />
                   <span>Logout</span>

@@ -36,6 +36,19 @@ export const get = createAsyncThunk('projects/getAll', async (_, thunkAPI) => {
   }
 });
 
+// Get single user project
+export const getOne = createAsyncThunk('projects/getOne', async (projectID, thunkAPI) => {
+  try {
+    const TOKEN = thunkAPI.getState().auth.user.token;
+    return await projectService.getProject(projectID, TOKEN);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const projectSlice = createSlice({
   name: 'project',
   initialState: initialState,
@@ -67,6 +80,20 @@ export const projectSlice = createSlice({
         state.projects = action.payload.projects;
       })
       .addCase(get.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getOne.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOne.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+        state.project = action.payload.project;
+      })
+      .addCase(getOne.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

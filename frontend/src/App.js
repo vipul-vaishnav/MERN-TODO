@@ -52,9 +52,10 @@ const App = () => {
         <Route path="profile" element={<PrivateRoute />} />
         <Route path="view-projects" element={<PrivateRoute />} />
         <Route path="create-project" element={<PrivateRoute />} />
+        <Route path="notifications" element={<PrivateRoute />} />
       </Route>
-      <Route path="/dashboard" element={<PrivateRoute />}>
-        <Route path="/dashboard" element={<Dashboard windowWidth={windowWidth} />} />
+      <Route path="/dashboard/:projectID" element={<PrivateRoute />}>
+        <Route path="/dashboard/:projectID" element={<Dashboard windowWidth={windowWidth} />} />
       </Route>
     </Routes>
   );

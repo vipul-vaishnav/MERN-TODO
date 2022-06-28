@@ -1,6 +1,6 @@
 ::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
+  height: 4px;
   border: 1px solid #d5d5d5;
 }
 
@@ -10,8 +10,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  background: rgba(17, 24, 49);
+  border-radius: 100px;
+  background: #111827;
 }
 
 @tailwind base;

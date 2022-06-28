@@ -6,6 +6,12 @@ module.exports = {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
       },
+      width: {
+        76: '300px',
+      },
+      maxHeight: {
+        '90vh': '90vh',
+      },
     },
   },
   plugins: [require('daisyui')],
