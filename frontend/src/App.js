@@ -54,7 +54,7 @@ const App = () => {
         <Route path="create-project" element={<PrivateRoute />} />
       </Route>
       <Route path="/dashboard" element={<PrivateRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard windowWidth={windowWidth} />} />
       </Route>
     </Routes>
   );

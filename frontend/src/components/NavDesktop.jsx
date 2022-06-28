@@ -42,7 +42,7 @@ const NavDesktop = () => {
             <li>
               <button
                 onClick={onLogout}
-                className="flex items-center justify-center gap-1 text-base font-semibold bg-gray-900 text-white px-5 py-2 rounded-md hover:scale-95 transition-all"
+                className="flex items-center justify-center gap-1 px-5 py-2 text-base font-semibold text-white transition-all bg-gray-900 rounded-md hover:scale-95"
               >
                 <Logout />
                 <span>Logout</span>

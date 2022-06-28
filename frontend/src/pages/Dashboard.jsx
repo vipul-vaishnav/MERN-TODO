@@ -1,10 +1,11 @@
 import React from 'react';
+import DashboardHeader from './../components/DashboardHeader';
 
-const Dashboard = () => {
+const Dashboard = ({ windowWidth }) => {
   return (
-    <div className="py-12 bg-green-600 sm:py-16">
-      <h1 className="text-6xl font-bold text-center">Dashboard</h1>
-    </div>
+    <main className="w-full h-screen text-base font-normal text-gray-900 bg-red-100 font-poppins">
+      <DashboardHeader windowWidth={windowWidth} />
+    </main>
   );
 };
 
