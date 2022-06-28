@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Image from './../images/icons8-group-of-projects-96.png';
 import SearchIcon from './../icons/SearchIcon';
 import MoreIcon from './../icons/MoreIcon';
@@ -12,6 +12,8 @@ const ViewProjects = () => {
   const { projects, isLoading, isSuccess } = useSelector((state) => state.project);
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     return () => {
@@ -36,7 +38,9 @@ const ViewProjects = () => {
           <img src={Image} alt="project-icon" className="w-8 sm:w-12" />
           <span className="text-xl font-semibold sm:text-5xl">Your Projects</span>
         </h1>
-        <p className="my-6 font-semibold text-center sm:text-xl sm:my-12">Here is the list of all your projects</p>
+        <p className="my-6 font-semibold text-center sm:text-xl sm:my-12">
+          Here is the list of all your {projects.length} projects
+        </p>
         <p className="my-3 text-gray-400">Search for a project</p>
         <div className="my-3">
           <form className="flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -82,7 +86,7 @@ const ViewProjects = () => {
                       <td>{project.status}</td>
                       <td>
                         <div className="tooltip" data-tip="More">
-                          <button>
+                          <button onClick={() => navigate('/dashboard')}>
                             <MoreIcon />
                           </button>
                         </div>

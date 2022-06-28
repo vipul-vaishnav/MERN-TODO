@@ -1,17 +1,12 @@
-/* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import NavModal from './components/NavModal';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './pages/Profile';
-import ViewProjects from './pages/ViewProjects';
-import CreateProject from './pages/CreateProject';
 import Dashboard from './pages/Dashboard';
 import { useLocation } from 'react-router-dom';
+import Layout from './Layout/Layout';
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
@@ -49,27 +44,19 @@ const App = () => {
   }, [pathname]);
 
   return (
-    <div className="max-w-6xl px-5 mx-auto text-base font-normal text-gray-900 bg-white sm:px-12 md:px-24 font-poppins">
-      <Header windowWidth={windowWidth} setShowModal={setShowModal} />
-      {windowWidth < 640 && showModal && <NavModal setShowModal={setShowModal} />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-        <Route path="/view-projects" element={<PrivateRoute />}>
-          <Route path="/view-projects" element={<ViewProjects />} />
-        </Route>
-        <Route path="/create-project" element={<PrivateRoute />}>
-          <Route path="/create-project" element={<CreateProject />} />
-        </Route>
-        <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout windowWidth={windowWidth} showModal={showModal} setShowModal={setShowModal} />}>
+        <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="profile" element={<PrivateRoute />} />
+        <Route path="view-projects" element={<PrivateRoute />} />
+        <Route path="create-project" element={<PrivateRoute />} />
+      </Route>
+      <Route path="/dashboard" element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+    </Routes>
   );
 };
 
