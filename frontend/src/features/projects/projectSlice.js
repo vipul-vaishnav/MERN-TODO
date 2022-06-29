@@ -49,6 +49,20 @@ export const getOne = createAsyncThunk('projects/getOne', async (projectID, thun
   }
 });
 
+// update project
+export const update = createAsyncThunk('projects/update', async (load, thunkAPI) => {
+  try {
+    const TOKEN = thunkAPI.getState().auth.user.token;
+    const { id: projectID, data } = load;
+    return await projectService.updateProject(projectID, data, TOKEN);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const projectSlice = createSlice({
   name: 'project',
   initialState: initialState,
@@ -94,6 +108,20 @@ export const projectSlice = createSlice({
         state.project = action.payload.project;
       })
       .addCase(getOne.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(update.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(update.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+        state.project = action.payload.project;
+      })
+      .addCase(update.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import { useLocation } from 'react-router-dom';
+import Error404 from './pages/Error404';
 import Layout from './Layout/Layout';
 
 const App = () => {
@@ -56,7 +56,12 @@ const App = () => {
       </Route>
       <Route path="/dashboard/:projectID" element={<PrivateRoute />}>
         <Route path="/dashboard/:projectID" element={<Dashboard windowWidth={windowWidth} />} />
+        <Route path="/dashboard/:projectID/settings" element={<Dashboard windowWidth={windowWidth} />} />
       </Route>
+      <Route
+        path="*"
+        element={<Error404 windowWidth={windowWidth} showModal={showModal} setShowModal={setShowModal} />}
+      />
     </Routes>
   );
 };

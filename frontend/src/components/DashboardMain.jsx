@@ -1,18 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Spinner from './Spinner';
 
 const DashboardMain = () => {
-  const { project, isLoading } = useSelector((state) => state.project);
-
-  const params = useParams();
-  const { projectID } = params;
-
-  if (isLoading) {
-    return <Spinner />;
-  }
+  const { project } = useSelector((state) => state.project);
 
   return (
     <div className="w-full h-full px-4 py-2 overflow-auto">
@@ -22,7 +13,7 @@ const DashboardMain = () => {
             <Link to="/view-projects">All Projects</Link>
           </li>
           <li>
-            <Link to={`/dashboard/${projectID}`}>{project.title}</Link>
+            <Link to={`/dashboard/${project._id}`}>{project.title}</Link>
           </li>
           <li>Add Document</li>
         </ul>

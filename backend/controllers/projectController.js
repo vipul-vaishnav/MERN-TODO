@@ -34,6 +34,7 @@ const createProject = asyncHandler(async (req, res) => {
   const user = req.user;
 
   if (!title || !key || !owner || !category || !priority || !startDate || !endDate || !description) {
+    res.status(400);
     throw new Error('Missing required field/s');
   } else {
     const projectData = {
@@ -143,6 +144,7 @@ const updateProject = asyncHandler(async (req, res) => {
     throw new Error('Not Authorized');
   } else {
     const project = await projectModel.findById(req.params.id);
+
     if (!project) {
       res.status(404);
       throw new Error('Project Not Found');
@@ -151,12 +153,34 @@ const updateProject = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error('Not authorized to view this project');
       } else {
-        const updated_project = await projectModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json({
-          status: 'success',
-          message: 'Project updated successfully',
-          project: updated_project,
-        });
+        const { status } = req.body;
+
+        if (status === 'Closed') {
+          const { close_project } = req.body;
+
+          if (close_project === `${project.owner}/${project.title}/${project.key}`) {
+            const newData = { ...req.body };
+            delete newData.close_project;
+
+            const updated_project = await projectModel.findByIdAndUpdate(req.params.id, newData, { new: true });
+            res.status(200).json({
+              status: 'success',
+              message: 'Project Closed successfully',
+              project: updated_project,
+            });
+          } else {
+            res.status(404);
+            throw new Error('Close String is Incorrect!');
+          }
+        } else {
+          delete req.body.close_project;
+          const updated_project = await projectModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+          res.status(200).json({
+            status: 'success',
+            message: 'Project updated successfully',
+            project: updated_project,
+          });
+        }
       }
     }
   }

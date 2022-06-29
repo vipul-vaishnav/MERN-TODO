@@ -13,7 +13,7 @@ import { get } from './../features/projects/projectSlice';
 import Spinner from './Spinner';
 
 const DashboardHeader = ({ windowWidth }) => {
-  const { projects, isLoading, isSuccess } = useSelector((state) => state.project);
+  const { projects, isSuccess, isLoading } = useSelector((state) => state.project);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
