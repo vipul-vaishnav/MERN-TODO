@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { update } from './../features/projects/projectSlice';
 import ErrorAlert from './../alerts/ErrorAlert';
 import SuccessAlert from './../alerts/SuccessAlert';
-import Spinner from './Spinner';
+// import Spinner from './Spinner';
 
 const DashboardSettings = () => {
   const { project, isLoading, isError, isSuccess, message } = useSelector((state) => state.project);
@@ -129,9 +129,9 @@ const DashboardSettings = () => {
     dispatch(update({ id: project._id, data: formData }));
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
   return (
     <div className="w-full h-full px-4 py-2 overflow-auto">
@@ -383,7 +383,10 @@ const DashboardSettings = () => {
             >
               Cancel
             </button>
-            <button type="submit" className="w-1/2 tracking-widest text-white bg-gray-900 btn">
+            <button
+              type="submit"
+              className={`w-1/2 tracking-widest text-white bg-gray-900 btn ${isLoading && 'loading'}`}
+            >
               Save
             </button>
           </div>

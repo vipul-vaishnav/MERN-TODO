@@ -10,7 +10,8 @@ import BellIcon from './../icons/BellIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 import { get } from './../features/projects/projectSlice';
-import Spinner from './Spinner';
+// import Spinner from './Spinner';
+import Loader from './Loader';
 
 const DashboardHeader = ({ windowWidth }) => {
   const { projects, isSuccess, isLoading } = useSelector((state) => state.project);
@@ -35,10 +36,6 @@ const DashboardHeader = ({ windowWidth }) => {
     dispatch(reset());
     navigate('/');
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   return (
     <div className="border shadow-md navbar bg-base-100 border-b-gray-200">
@@ -76,8 +73,23 @@ const DashboardHeader = ({ windowWidth }) => {
                 <ChevronDown />
               </button>
               <ul className="z-50 p-2 -ml-24 overflow-x-hidden overflow-y-auto shadow-2xl sm:-ml-5 bg-base-100 max-h-90vh">
-                {projects && projects.length > 0 && projects.length <= 10
-                  ? projects.map((project, idx) => {
+                {isLoading ? (
+                  <div className="text-center py-3">
+                    <Loader />
+                  </div>
+                ) : projects && projects.length > 0 && projects.length <= 10 ? (
+                  projects.map((project, idx) => {
+                    return (
+                      <li key={idx}>
+                        <Link to={`/dashboard/${project._id}`} className="hover:underline">
+                          <span className="font-semibold">{idx + 1}</span> {project.title}
+                        </Link>
+                      </li>
+                    );
+                  })
+                ) : (
+                  projects.map((project, idx) => {
+                    if (idx < 10) {
                       return (
                         <li key={idx}>
                           <Link to={`/dashboard/${project._id}`} className="hover:underline">
@@ -85,19 +97,10 @@ const DashboardHeader = ({ windowWidth }) => {
                           </Link>
                         </li>
                       );
-                    })
-                  : projects.map((project, idx) => {
-                      if (idx < 10) {
-                        return (
-                          <li key={idx}>
-                            <Link to={`/dashboard/${project._id}`} className="hover:underline">
-                              <span className="font-semibold">{idx + 1}</span> {project.title}
-                            </Link>
-                          </li>
-                        );
-                      }
-                      return null;
-                    })}
+                    }
+                    return null;
+                  })
+                )}
                 {projects && projects.length > 10 && (
                   <>
                     <p>...</p>
