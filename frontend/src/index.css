@@ -18,6 +18,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.collapse::-webkit-scrollbar {
+  display: none;
+}
+
 .loadingSpinnerContainer {
   position: fixed;
   top: 0;

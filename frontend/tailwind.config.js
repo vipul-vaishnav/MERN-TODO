@@ -12,6 +12,10 @@ module.exports = {
       maxHeight: {
         '90vh': '90vh',
       },
+      minWidth: {
+        '4xl': '300px',
+        '5xl': '320px',
+      },
     },
   },
   plugins: [require('daisyui')],

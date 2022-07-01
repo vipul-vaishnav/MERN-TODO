@@ -10,7 +10,6 @@ import BellIcon from './../icons/BellIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 import { get } from './../features/projects/projectSlice';
-// import Spinner from './Spinner';
 import Loader from './Loader';
 
 const DashboardHeader = ({ windowWidth }) => {
@@ -78,22 +77,22 @@ const DashboardHeader = ({ windowWidth }) => {
                     <Loader />
                   </div>
                 ) : projects && projects.length > 0 && projects.length <= 10 ? (
-                  projects.map((project, idx) => {
+                  projects.map((project_el, idx) => {
                     return (
                       <li key={idx}>
-                        <Link to={`/dashboard/${project._id}`} className="hover:underline">
-                          <span className="font-semibold">{idx + 1}</span> {project.title}
+                        <Link to={`/dashboard/${project_el._id}`} className="hover:underline">
+                          <span className="font-semibold">{idx + 1}</span> {project_el.title}
                         </Link>
                       </li>
                     );
                   })
                 ) : (
-                  projects.map((project, idx) => {
+                  projects.map((project_el, idx) => {
                     if (idx < 10) {
                       return (
                         <li key={idx}>
-                          <Link to={`/dashboard/${project._id}`} className="hover:underline">
-                            <span className="font-semibold">{idx + 1}</span> {project.title}
+                          <Link to={`/dashboard/${project_el._id}`} className="hover:underline">
+                            <span className="font-semibold">{idx + 1}</span> {project_el.title}
                           </Link>
                         </li>
                       );

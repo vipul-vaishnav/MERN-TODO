@@ -5,6 +5,7 @@ import colors from 'colors';
 import connectDB from './configs/connectDB.js';
 import userRouter from './routes/userRoute.js';
 import projectRouter from './routes/projectRoute.js';
+import boardRouter from './routes/boardRoute.js';
 import errorHandler from './middlewares/errorMiddlware.js';
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 // routes
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/projects', boardRouter);
 
 // error handlers
 app.use(errorHandler);

@@ -8,9 +8,8 @@ import KeyIcon from './../icons/KeyIcon';
 import SettingsIcon from './../icons/SettingsIcon';
 import DashboardMain from './DashboardMain';
 import DashboardSettings from './DashboardSettings';
-// import Loader from './Loader';
 
-const DashboardDrawer = () => {
+const DashboardDrawer = ({ windowWidth }) => {
   const { project, isLoading, isError, isSuccess, message } = useSelector((state) => state.project);
 
   const params = useParams();
@@ -34,8 +33,12 @@ const DashboardDrawer = () => {
   return (
     <div className="h-full bg-gray-100 drawer drawer-mobile">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="flex flex-col items-center justify-center overflow-x-auto overflow-y-auto drawer-content">
-        {pathname === `/dashboard/${projectID}/settings` ? <DashboardSettings /> : <DashboardMain />}
+      <div className="flex flex-col items-center justify-center drawer-content">
+        {pathname === `/dashboard/${projectID}/settings` ? (
+          <DashboardSettings />
+        ) : (
+          <DashboardMain windowWidth={windowWidth} />
+        )}
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { update } from './../features/projects/projectSlice';
 import ErrorAlert from './../alerts/ErrorAlert';
 import SuccessAlert from './../alerts/SuccessAlert';
-// import Spinner from './Spinner';
 
 const DashboardSettings = () => {
   const { project, isLoading, isError, isSuccess, message } = useSelector((state) => state.project);
@@ -20,8 +19,8 @@ const DashboardSettings = () => {
   });
 
   //   Date handling
-  const SD = new Date(project.startDate);
-  const ED = new Date(project.endDate);
+  const SD = new Date(project?.startDate);
+  const ED = new Date(project?.endDate);
 
   const sd_val = `${SD.getFullYear()}-${SD.getMonth() + 1 < 10 ? '0' + (SD.getMonth() + 1) : SD.getMonth() + 1}-${
     SD.getDate() < 10 ? '0' + SD.getDate() : SD.getDate()
@@ -76,7 +75,7 @@ const DashboardSettings = () => {
         });
       }, 3000);
     }
-  }, [isError, isSuccess, message]);
+  }, [isError, isSuccess, message, dispatch]);
 
   // Handle Form Submission
   const handleSubmit = (e) => {

@@ -10,7 +10,7 @@ const Dashboard = ({ windowWidth }) => {
       <DashboardHeader windowWidth={windowWidth} />
       {/* MAIN SECTION WITH DRAWER */}
       <div className="flex-1 overflow-hidden">
-        <DashboardDrawer />
+        <DashboardDrawer windowWidth={windowWidth} />
       </div>
       {/* FOOTER */}
       <DashboardFooter />
